@@ -7,7 +7,7 @@
 .grid-container {
     display: grid;
     width: 100%;
-    border: #05f134 2px solid;
+    
 }
 body {
     margin: 0;
