@@ -2,6 +2,7 @@ const alertBanner = document.getElementById("alert");
 const trafficCanvas = document.getElementById("traffic-chart");
 const dailyCanvas = document.getElementById("daily-chart");
 const mobileCanvas = document.getElementById("mobile-chart");
+
 const user = document.getElementById("userField");
 const message = document.getElementById("messageField");
 const send = document.getElementById("send");
@@ -9,6 +10,11 @@ let newMessage = 0;
 const messageSent = document.getElementById("messageSent");
 const messageTo = document.getElementById("messageTo");
 const notifications = document.getElementById("notifications");
+
+const trafficHourly = document.getElementById("hourly");
+const trafficDaily = document.getElementById("daily");
+const trafficWeekly = document.getElementById("weekly");
+const trafficMonthly = document.getElementById("monthly");
 // ================== alert banner ======================
 notifications.addEventListener("click", () => {
   alertBanner.innerHTML = `<div class="alert-banner">
@@ -24,7 +30,7 @@ notifications.addEventListener("click", () => {
   });
 });
 // ================== traffic chart ======================
-let trafficData = {
+let trafficDataWeekly = {
   labels: [
     "16-22",
     "23-29",
@@ -42,7 +48,73 @@ let trafficData = {
     {
       data: [750, 1250, 1000, 2000, 1500, 1750, 1250, 1850, 2250, 1500, 2500],
       backgroundColor: "rgba(116, 119, 191, .3)",
-      borderWidth: 1,
+      borderWidth: 3,
+    },
+  ],
+};
+let trafficDataDaily = {
+  labels: [
+    "Monday",
+    "Tuesday",
+    "Wednesdays",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ],
+  datasets: [
+    {
+      data: [400, 600, 300, 625, 475, 750, 550],
+      backgroundColor: "rgba(116, 119, 191, .3)",
+      borderWidth: 3,
+    },
+  ],
+};
+let trafficDataMonthly = {
+  labels: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
+  datasets: [
+    {
+      data: [
+        2250, 3500, 4250, 2750, 3100, 2500, 3500, 4300, 3750, 3400, 2900, 3000,
+      ],
+      backgroundColor: "rgba(116, 119, 191, .3)",
+      borderWidth: 3,
+    },
+  ],
+};
+let trafficDataHourly = {
+  labels: [
+    "2AM",
+    "4AM",
+    "6AM",
+    "8AM",
+    "10AM",
+    "12PM",
+    "2PM",
+    "4PM",
+    "6PM",
+    "8PM",
+    "10PM",
+    "12AM",
+  ],
+  datasets: [
+    {
+      data: [11, 15, 08, 13, 20, 25, 19, 30, 35, 43, 33, 21],
+      backgroundColor: "rgba(116, 119, 191, .3)",
+      borderWidth: 3,
     },
   ],
 };
@@ -65,11 +137,56 @@ let trafficOptions = {
     },
   },
 };
+
+// event listeners for traffic nav
+
+trafficHourly.addEventListener("click", (e) => {
+  trafficChart.data.labels = trafficDataHourly.labels;
+  trafficChart.data.datasets[0].data = trafficDataHourly.datasets[0].data;
+  trafficChart.update();
+});
+
+trafficDaily.addEventListener("click", (e) => {
+  trafficChart.data.labels = trafficDataDaily.labels;
+  trafficChart.data.datasets[0].data = trafficDataDaily.datasets[0].data;
+  trafficChart.update();
+});
+
+trafficWeekly.addEventListener("click", (e) => {
+  trafficChart.data.labels = trafficDataWeekly.labels;
+  trafficChart.data.datasets[0].data = trafficDataWeekly.datasets[0].data;
+  trafficChart.update();
+});
+
+trafficMonthly.addEventListener("click", (e) => {
+  trafficChart.data.labels = trafficDataMonthly.labels;
+  trafficChart.data.datasets[0].data = trafficDataMonthly.datasets[0].data;
+  trafficChart.update();
+});
+
 let trafficChart = new Chart(trafficCanvas, {
   type: "line",
-  data: trafficData,
+  data: {
+    labels: [
+      "Monday",
+      "Tuesday",
+      "Wednesdays",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ],
+    datasets: [
+      {
+        data: [400, 600, 300, 625, 475, 750, 550],
+        backgroundColor: "rgba(116, 119, 191, 0.3)",
+        borderWidth: 1,
+      },
+    ],
+  },
   options: trafficOptions,
 });
+
 // ================== daily bar ======================
 const dailyData = {
   labels: ["S", "M", "T", "W", "T", "F", "S"],
@@ -98,6 +215,7 @@ let dailyChart = new Chart(dailyCanvas, {
   type: "bar",
   data: dailyData,
   options: dailyOptions,
+  responsive: true,
 });
 // ================== mobile users ======================
 const mobileData = {
@@ -127,6 +245,7 @@ let mobileChart = new Chart(mobileCanvas, {
   type: "doughnut",
   data: mobileData,
   options: mobileOptions,
+  responsive: true,
 });
 // ================== messages ======================
 send.addEventListener("click", () => {
